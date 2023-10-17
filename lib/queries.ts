@@ -4,15 +4,17 @@ import { PrismaClient, Event, Session } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const findOrCreateUser = async (userName: string) =>
+export const findOrCreateUser = async (userName: string, phone: string) =>
   (await prisma.user.findFirst({
     where: {
       name: userName,
+      phone,
     },
   })) ||
   (await prisma.user.create({
     data: {
       name: userName,
+      phone,
     },
   }));
 
@@ -96,13 +98,12 @@ export const listSessionsForEvent = async ({
 
 export const registerSession = async ({
   sessionId,
-  userName,
+  userId,
 }: {
   sessionId: string;
-  userName: string;
+  userId: string
 }) => {
   "use server";
-  const user = await findOrCreateUser(userName);
 
   // Enforce one session per event, per user
   await prisma.event
@@ -117,7 +118,7 @@ export const registerSession = async ({
     })
     .sessions({
       where: {
-        userId: user.uuid,
+        userId: userId,
       },
     })
     .then((val) => {
@@ -141,7 +142,7 @@ export const registerSession = async ({
       userId: null,
     },
     data: {
-      userId: user.uuid,
+      userId: userId,
     },
     include: {
       event: true,
@@ -151,17 +152,15 @@ export const registerSession = async ({
 
 export const deregisterSession = async ({
   sessionId,
-  userName,
+  userId,
 }: {
   sessionId: string;
-  userName: string;
+  userId: string;
 }) => {
   "use server";
-  const user = await findOrCreateUser(userName);
-
   prisma.session.update({
     where: {
-      userId: user.uuid,
+      userId,
       uuid: sessionId,
     },
     data: {
@@ -170,22 +169,20 @@ export const deregisterSession = async ({
   });
 };
 
-export const getUserEvents = async (userName: string) => {
+export const getUserEvents = async (userId: string) => {
   "use server";
-  const user = await findOrCreateUser(userName);
-
   prisma.event.findMany({
     where: {
       sessions: {
         some: {
-          userId: user.uuid,
+          userId,
         },
       },
     },
     include: {
       sessions: {
         where: {
-          userId: user.uuid,
+          userId,
         },
       },
     },

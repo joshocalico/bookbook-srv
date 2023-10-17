@@ -34,7 +34,7 @@ export const POST = async (req: Request): Promise<NextResponse> => {
   return NextResponse.json(
     await registerSession({
       sessionId: session,
-      userName: user,
+      userId: user,
     }),
   );
 };
@@ -66,7 +66,7 @@ export const DELETE = async (req: Request): Promise<NextResponse> => {
   return NextResponse.json(
     await deregisterSession({
       sessionId: session,
-      userName: user,
+      userId: user,
     }),
   );
 };
