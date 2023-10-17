@@ -1,12 +1,14 @@
 # BookBook Server
-A simple back office and Server API for Bookingdle. 
----
+
+## A simple back office and Server API for Bookingdle.
+
 &copy; Joshua Steele 2023 - MIT License
 
 Server for the event management assignment for 2023's iOS Enterprise Application Development.
 Largely supposed to be an interim server I threw together before the official API is live.
 
 ### Running
+
 I'm using Vercel (Hobby) Hosting, Postgres and Blob storage. This is appropriately quick and dirty.
 
 1. Create a (NextJS) project against this repo in Vercel.
@@ -16,7 +18,8 @@ I'm using Vercel (Hobby) Hosting, Postgres and Blob storage. This is appropriate
 Congratulations! You're set up.
 
 ### Caveat Emptor!
-This is **not** official and I'm not going to provide support for it. 
+
+This is **not** official and I'm not going to provide support for it.
 
 I _will_ however tell you how to find API endpoints you can use here.
 

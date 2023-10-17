@@ -53,10 +53,19 @@ export const updateEvent = async (
   });
 };
 
-export const createSession = async (data: Session) => {
+export const createSession = async (data: Omit<Session, "uuid">) => {
   "use server";
   return await prisma.session.create({
     data,
+  });
+};
+
+export const deleteSession = async (uuid: string) => {
+  "use server";
+  return await prisma.session.delete({
+    where: {
+      uuid,
+    },
   });
 };
 
@@ -78,6 +87,9 @@ export const listSessionsForEvent = async ({
   return await prisma.session.findMany({
     where: {
       eventId,
+    },
+    include: {
+      user: true,
     },
   });
 };
@@ -154,6 +166,28 @@ export const deregisterSession = async ({
     },
     data: {
       userId: null,
+    },
+  });
+};
+
+export const getUserEvents = async (userName: string) => {
+  "use server";
+  const user = await findOrCreateUser(userName);
+
+  prisma.event.findMany({
+    where: {
+      sessions: {
+        some: {
+          userId: user.uuid,
+        },
+      },
+    },
+    include: {
+      sessions: {
+        where: {
+          userId: user.uuid,
+        },
+      },
     },
   });
 };

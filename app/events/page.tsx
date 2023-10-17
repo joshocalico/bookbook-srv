@@ -16,6 +16,10 @@ const EventPage = () => {
       <h2 className="text-3xl px-4">
         Manage Sessions and Events in Bookingdle
       </h2>
+      <h4 className="text-xl font-extralight px-4">
+        Click a row to manage an event&apos;s sessions <i>or</i> use the options
+        on the right to alter or delete any existing events.
+      </h4>
       <div className="w-full overflow-x-auto">
         <table
           className="text-left text-sm font-light table-auto min-w-full"
