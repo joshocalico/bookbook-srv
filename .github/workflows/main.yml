@@ -1,0 +1,20 @@
+name: Deploy documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-doc:
+    name: Deploy API doc on Bump.sh
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy API documentation
+        uses: bump-sh/github-action@v1
+        with:
+          doc: b6127378-727e-4882-92b5-b3c4419cfc02
+          token: ${{secrets.BUMP_TOKEN}}
+          file: bookingdle.yml
