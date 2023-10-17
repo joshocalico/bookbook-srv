@@ -4,6 +4,8 @@
 
 &copy; Joshua Steele 2023 - MIT License
 
+[API Documentation](https://bump.sh/joshocalico/doc/bookingdle)
+
 Server for the event management assignment for 2023's iOS Enterprise Application Development.
 Largely supposed to be an interim server I threw together before the official API is live.
 
@@ -24,5 +26,3 @@ This is **not** official and I'm not going to provide support for it.
 I _will_ however tell you how to find API endpoints you can use here.
 
 Any API routes in the `app/api/bookingdle` directory are available to use by your iOS client.
-
-I may at some point create an OpenAPI specification for improved understanding but... probably not.

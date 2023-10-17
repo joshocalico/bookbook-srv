@@ -9,7 +9,7 @@ paths:
     get:
       responses:
         '200':
-          description: |
+          description: >
             Returns a list of all events, sessions
             and whether those sessions are available.
           content:
@@ -20,44 +20,46 @@ paths:
                   properties:
                     uuid:
                       type: string
-                      description: |
+                      description: >
                         The unique ID for this event.
                     title:
                       type: string
                       description: Event title
                     shortDescription:
                       type: string
-                      description: |
+                      description: >
                         A compact description to encourage
                         the user to click on the event.
                     longDescription:
                       type: string
-                      description: |
+                      description: >
                         A more exhaustive description of the event,
                         include event requirements.
                     image:
                       type: string
                       description: Image URL
                     sessions:
-                      type: object
-                      description: |
-                        An anonymised variant of sessions.
-                        Describes whether an event is booked yet.
-                      properties:
-                        uuid:
-                          type: string
-                          description: ID of session
-                        eventId:
-                          type: string
-                          description: ID of event
-                        time:
-                          type: string
-                          description: Time of booking
-                        bookable:
-                          type: boolean
-                          description: |
-                            Whether there is already a user booking this
-                            event, or if you may book it.
+                      type: array
+                      items:
+                        type: object
+                        description: >
+                          An anonymised variant of sessions.
+                          Describes whether an event is booked yet.
+                        properties:
+                          uuid:
+                            type: string
+                            description: ID of session
+                          eventId:
+                            type: string
+                            description: ID of event
+                          time:
+                            type: string
+                            description: Time of booking
+                          bookable:
+                            type: boolean
+                            description: >
+                              Whether there is already a user booking this
+                              event, or if you may book it.
   /session:
     post:
       requestBody:
@@ -70,15 +72,15 @@ paths:
               properties:
                 user:
                   type: string
-                  description: |
+                  description: >
                     User ID, find it in the UUID from the /user route.
                 session:
                   type: string
-                  description: |
+                  description: >
                     The UUID of the Session you wish to register for.
       responses:
         '200':
-          description: |
+          description: >
             Reqistered for event. 
             May silently fail if already registered.
           content:
@@ -104,19 +106,19 @@ paths:
                     properties:
                       uuid:
                         type: string
-                        description: |
+                        description: >
                           The unique ID for this event.
                       title:
                         type: string
                         description: Event title
                       shortDescription:
                         type: string
-                        description: |
+                        description: >
                           A compact description to encourage
                           the user to click on the event.
                       longDescription:
                         type: string
-                        description: |
+                        description: >
                           A more exhaustive description of the event,
                           include event requirements.
                       image:
@@ -149,11 +151,11 @@ paths:
               properties:
                 user:
                   type: string
-                  description: |
+                  description: >
                     User ID, find it in the UUID from the /user route.
                 session:
                   type: string
-                  description: |
+                  description: >
                     The UUID of the Session you wish to register for.
       responses:
         "200":
@@ -201,7 +203,7 @@ paths:
                 properties:
                   uuid:
                     type: string
-                    description: |
+                    description: >
                       User unique ID, use like a token.
                       Not very secure of course but this is a simple API.
                   phone:
@@ -245,41 +247,43 @@ paths:
                       properties:
                         uuid:
                           type: string
-                          description: |
+                          description: >
                             The unique ID for this event.
                         title:
                           type: string
                           description: Event title
                         shortDescription:
                           type: string
-                          description: |
+                          description: >
                             A compact description to encourage
                             the user to click on the event.
                         longDescription:
                           type: string
-                          description: |
+                          description: >
                             A more exhaustive description of the event,
                             include event requirements.
                         image:
                           type: string
                           description: Image URL
                         sessions:
-                          type: object
-                          description: |
-                            Your sessions!
-                          properties:
-                            uuid:
-                              type: string
-                              description: ID of session
-                            eventId:
-                              type: string
-                              description: ID of event
-                            time:
-                              type: string
-                              description: Time of booking
-                            userId:
-                              type: string
-                              description: Your user ID
+                          type: array
+                          items:
+                            type: object
+                            description: >
+                              Your sessions!
+                            properties:
+                              uuid:
+                                type: string
+                                description: ID of session
+                              eventId:
+                                type: string
+                                description: ID of event
+                              time:
+                                type: string
+                                description: Time of booking
+                              userId:
+                                type: string
+                                description: Your user ID
         "400":
           description: Incorrect parameters
           content:
