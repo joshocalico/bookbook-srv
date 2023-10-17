@@ -1,0 +1,291 @@
+openapi: '3.0.2'
+info:
+  title: Bookingdle
+  version: '1.0'
+servers:
+  - url: https://bookbook-srv.vercel.app/api/bookingdle
+paths:
+  /events:
+    get:
+      responses:
+        '200':
+          description: |
+            Returns a list of all events, sessions
+            and whether those sessions are available.
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  properties:
+                    uuid:
+                      type: string
+                      description: |
+                        The unique ID for this event.
+                    title:
+                      type: string
+                      description: Event title
+                    shortDescription:
+                      type: string
+                      description: |
+                        A compact description to encourage
+                        the user to click on the event.
+                    longDescription:
+                      type: string
+                      description: |
+                        A more exhaustive description of the event,
+                        include event requirements.
+                    image:
+                      type: string
+                      description: Image URL
+                    sessions:
+                      type: object
+                      description: |
+                        An anonymised variant of sessions.
+                        Describes whether an event is booked yet.
+                      properties:
+                        uuid:
+                          type: string
+                          description: ID of session
+                        eventId:
+                          type: string
+                          description: ID of event
+                        time:
+                          type: string
+                          description: Time of booking
+                        bookable:
+                          type: boolean
+                          description: |
+                            Whether there is already a user booking this
+                            event, or if you may book it.
+  /session:
+    post:
+      requestBody:
+        description: Register for a session.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+                  description: |
+                    User ID, find it in the UUID from the /user route.
+                session:
+                  type: string
+                  description: |
+                    The UUID of the Session you wish to register for.
+      responses:
+        '200':
+          description: |
+            Reqistered for event. 
+            May silently fail if already registered.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    description: ID of session
+                  userId:
+                    type: string
+                    description: ID of user (you!)
+                  time:
+                    type: string
+                    description: Time of booking
+                  eventId:
+                    type: string
+                    description: ID of event
+                  event:
+                    type: object
+                    description: The event this belongs to.
+                    properties:
+                      uuid:
+                        type: string
+                        description: |
+                          The unique ID for this event.
+                      title:
+                        type: string
+                        description: Event title
+                      shortDescription:
+                        type: string
+                        description: |
+                          A compact description to encourage
+                          the user to click on the event.
+                      longDescription:
+                        type: string
+                        description: |
+                          A more exhaustive description of the event,
+                          include event requirements.
+                      image:
+                        type: string
+                        description: Image URL     
+        "400":
+          description: "Invalid parameters"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    description: Error Object
+                    properties:
+                      issues:
+                        type: array
+                        items:
+                          type: string
+                          description: Serialization issues
+    delete:
+      requestBody:
+        description: Register for a session.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+                  description: |
+                    User ID, find it in the UUID from the /user route.
+                session:
+                  type: string
+                  description: |
+                    The UUID of the Session you wish to register for.
+      responses:
+        "200":
+          description: Successfully deregistered for session
+        "400":
+          description: "Invalid parameters"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    description: Error Object
+                    properties:
+                      issues:
+                        type: array
+                        items:
+                          type: string
+                          description: Serialization issues
+  /user:
+    post:
+      description: Register an account / user
+      requestBody:
+        description: Personal information
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: User's name.
+                  type: string
+                phone:
+                  description: User's phone number
+                  type: string
+      responses:
+        "200":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    description: |
+                      User unique ID, use like a token.
+                      Not very secure of course but this is a simple API.
+                  phone:
+                    type: string
+                    description: Phone as recorded in DB
+                  name:
+                    type: string
+                    description: Name as recorded in DB
+        "400":
+          description: "Invalid parameters"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    description: Error Object
+                    properties:
+                      issues:
+                        type: array
+                        items:
+                          type: string
+                          description: Serialization issues            
+    get:
+      description: Get all events and sessions registered for.
+      parameters:
+        - in: query
+          name: user
+          schema:
+            type: string
+          description: User Unique ID
+      responses:
+        "200":
+          description: Listed all events that you're attending
+          content:
+            application/json:
+                  schema:
+                    type: "array"
+                    items:
+                      properties:
+                        uuid:
+                          type: string
+                          description: |
+                            The unique ID for this event.
+                        title:
+                          type: string
+                          description: Event title
+                        shortDescription:
+                          type: string
+                          description: |
+                            A compact description to encourage
+                            the user to click on the event.
+                        longDescription:
+                          type: string
+                          description: |
+                            A more exhaustive description of the event,
+                            include event requirements.
+                        image:
+                          type: string
+                          description: Image URL
+                        sessions:
+                          type: object
+                          description: |
+                            Your sessions!
+                          properties:
+                            uuid:
+                              type: string
+                              description: ID of session
+                            eventId:
+                              type: string
+                              description: ID of event
+                            time:
+                              type: string
+                              description: Time of booking
+                            userId:
+                              type: string
+                              description: Your user ID
+        "400":
+          description: Incorrect parameters
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Error message
+        
+                            
